@@ -1,0 +1,67 @@
+-- Example script as a string
+local speedScript = [[
+local speed = 16
+
+local gui = Instance.new("ScreenGui")
+gui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+
+local frame = Instance.new("Frame")
+frame.Size = UDim2.new(0, 200, 0, 80)
+frame.Position = UDim2.new(0, 10, 0, 10)
+frame.BackgroundColor3 = Color3.fromRGB(35, 35, 35)  -- Dark gray background
+frame.BorderSizePixel = 2
+frame.BorderColor3 = Color3.fromRGB(255, 255, 255)  -- White border
+frame.Active = true
+frame.Draggable = true
+frame.Parent = gui
+
+local plusSpeedButton = Instance.new("TextButton")
+plusSpeedButton.Size = UDim2.new(0, 80, 0, 30)
+plusSpeedButton.Position = UDim2.new(0, 10, 0, 10)
+plusSpeedButton.Text = "+ Speed"
+plusSpeedButton.BackgroundColor3 = Color3.fromRGB(50, 150, 50)  -- Green button
+plusSpeedButton.Parent = frame
+
+local minusSpeedButton = Instance.new("TextButton")
+minusSpeedButton.Size = UDim2.new(0, 80, 0, 30)
+minusSpeedButton.Position = UDim2.new(0, 110, 0, 10)
+minusSpeedButton.Text = "- Speed"
+minusSpeedButton.BackgroundColor3 = Color3.fromRGB(150, 50, 50)  -- Red button
+minusSpeedButton.Parent = frame
+
+local speedTextLabel = Instance.new("TextLabel")
+speedTextLabel.Size = UDim2.new(0, 100, 0, 30)
+speedTextLabel.Position = UDim2.new(0, 10, 0, 50)
+speedTextLabel.Text = "Speed: " .. speed
+speedTextLabel.TextColor3 = Color3.fromRGB(255, 255, 255)  -- White text
+speedTextLabel.Parent = frame
+
+local function updateSpeedLabel()
+    speedTextLabel.Text = "Speed: " .. tostring(speed)
+end
+
+plusSpeedButton.MouseButton1Click:Connect(function()
+    speed = speed + 50
+    game.Players.LocalPlayer.Character:FindFirstChildOfClass("Humanoid").WalkSpeed = speed
+    updateSpeedLabel()
+end)
+
+minusSpeedButton.MouseButton1Click:Connect(function()
+    if speed >= 50 then
+        speed = speed - 50
+        game.Players.LocalPlayer.Character:FindFirstChildOfClass("Humanoid").WalkSpeed = speed
+        updateSpeedLabel()
+    end
+end)
+]]
+
+-- Use loadstring to execute the speed adjustment script
+local scriptFunction, errorMessage = loadstring(speedScript)
+
+if scriptFunction then
+    -- Execute the script function
+    scriptFunction()
+else
+    -- Handle any errors
+    warn("Error: " .. errorMessage)
+end
